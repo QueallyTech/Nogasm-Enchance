@@ -9,6 +9,12 @@ enum class VibrationMode {
   GlobalSync = 0
 };
 
+enum class PatternMode {
+    Step = 1,
+    Wave = 2,
+    Sawtooth = 3
+};
+
 struct VibrationPattern {
   int motor_speed;
   float hold_ticks;
@@ -74,6 +80,7 @@ private:
 namespace VibrationPatterns {
   extern VibrationPattern Step[];
   extern VibrationPattern Wave[];
+  extern VibrationPattern Sawtooth[];
 }
 
 namespace VibrationControllers {

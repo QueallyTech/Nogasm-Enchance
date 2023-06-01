@@ -104,6 +104,7 @@ struct ConfigStruct {
 
   // Vibration Output Mode
   VibrationMode vibration_mode;
+  PatternMode pattern_mode;
   
   // Post orgasm torure stuff
   int clench_pressure_sensitivity;

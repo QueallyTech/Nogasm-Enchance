@@ -101,6 +101,24 @@ VibrationPattern VibrationPatterns::Wave[] = {
     { 255, 60, true },
 };
 
+VibrationPattern VibrationPatterns::Sawtooth[] = {
+    {   0, 10, true  },
+    {  32, 60, true  },
+    {  64, 10, false },
+    {  32, 60, true  },
+    {  96, 10, false },
+    {  32, 60, true  },
+    { 128, 10, false },
+    {  32, 60, true  },
+    { 160, 10, false },
+    {  32, 60, true  },
+    { 192, 10, false },
+    {  32, 60, true  },
+    { 224, 10, false },
+    {  32, 60, true  },
+    { 255, 10, false },
+};
+
 PatternController::PatternController() {
   setPattern(VibrationPatterns::Wave);
 }
@@ -134,6 +152,24 @@ float PatternController::increment() {
 
 VibrationPattern PatternController::nextStep() {
   int step = (this->pattern_step + 1) % this->pattern_length;
+  int old_length = pattern_length;
+
+  switch (Config.pattern_mode) {
+    case PatternMode::Step:
+        setPattern(VibrationPatterns::Step);
+        break;
+    case PatternMode::Wave:
+        setPattern(VibrationPatterns::Wave);
+        break;
+    case PatternMode::Sawtooth:
+        setPattern(VibrationPatterns::Sawtooth);
+        break;
+  }
+
+  if (pattern_length != old_length) {
+    step = 1;
+    Serial.println("Pattern Changed");
+  }
   return this->pattern[step];
 }
 

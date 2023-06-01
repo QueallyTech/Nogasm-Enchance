@@ -169,8 +169,50 @@ static void buildVibrationModeMenu(UIMenu *menu) {
 
 UIMenu VibrationModeMenu("Vibration Mode", &buildVibrationModeMenu);
 
+static void setPatternMode(UIMenu *menu, int m) {
+  PatternMode mode = (PatternMode) m;
+
+  Serial.print("Setting pattern to: ");
+  switch(mode) {
+    case PatternMode::Step:
+      Serial.println("Step");
+      break;
+    case PatternMode::Wave:
+      Serial.println("Wave");
+      break;
+    case PatternMode::Sawtooth:
+      Serial.println("Sawtooth");
+      break;
+  }
+
+  Config.pattern_mode = mode;
+  saveConfigToSd(0);
+  menu->rerender();
+}
+
+static void add_pattern_item(UIMenu *menu, std::string label, PatternMode mode) {
+  std::string text = "";
+  if (Config.pattern_mode == mode) {
+    text += "X";
+  } else {
+    text += " ";
+  }
+  text += " " + label;
+
+  menu->addItem(text, &setPatternMode, (int) mode);
+}
+
+static void buildPatternModeMenu(UIMenu *menu) {
+  add_pattern_item(menu, "Step", PatternMode::Step);
+  add_pattern_item(menu, "Wave", PatternMode::Wave);
+  add_pattern_item(menu, "Sawtooth", PatternMode::Sawtooth);
+}
+
+UIMenu PatternModeMenu("Pattern Mode", &buildPatternModeMenu);
+
 static void buildMenu(UIMenu *menu) {
   menu->addItem(&VibrationModeMenu);
+  menu->addItem(&PatternModeMenu);
   menu->addItem(&MotorMaxSpeedInput);
   menu->addItem(&MotorStartSpeedInput);
   menu->addItem(&MotorRampTimeInput);

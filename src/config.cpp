@@ -105,6 +105,7 @@ void loadConfigFromJsonObject(JsonDocument &doc) {
 
   // Copy Vibration Settings
   Config.vibration_mode = (VibrationMode)(doc["vibration_mode"] | (int)VibrationMode::RampStop);
+  Config.pattern_mode = (PatternMode)(doc["pattern_mode"] | (int)PatternMode::Step);
   
   // Post orgasm torture settings. The clench_pressure_sensitivity might need ajustment on the Edge-o-matic
   Config.clench_pressure_sensitivity = doc["clench_pressure_sensitivity"] | 200;
@@ -164,6 +165,7 @@ void dumpConfigToJsonObject(JsonDocument &doc) {
 
   // Vibration Settings
   doc["vibration_mode"] = (int) Config.vibration_mode;
+  doc["pattern_mode"] = (int) Config.pattern_mode;
   
   // Post orgasm torture settings
   doc["clench_pressure_sensitivity"] = Config.clench_pressure_sensitivity;
@@ -295,6 +297,8 @@ bool setConfigValue(const char *option, const char *value, bool &require_reboot)
     require_reboot = true;
   } else if (!strcmp(option, "vibration_mode")) {
     Config.vibration_mode = (VibrationMode) atoi(value);
+  }  else if (!strcmp(option, "pattern_mode")) {
+    Config.pattern_mode = (PatternMode) atoi(value);
   } else if(!strcmp(option, "clench_pressure_sensitivity")) {
     Config.clench_pressure_sensitivity = atoi(value);
   } else if(!strcmp(option, "clench_threshold_2_orgasm")) {
@@ -371,6 +375,8 @@ bool getConfigValue(const char *option, String &out) {
     out += String(Config.hostname) + '\n';
   } else if (!strcmp(option, "vibration_mode")) {
     out += String((int) Config.vibration_mode) + '\n';
+  } else if (!strcmp(option, "pattern_mode")) {
+    out += String((int) Config.pattern_mode) + '\n';
   } else if(!strcmp(option, "clench_pressure_sensitivity")) { 
     out += String(Config.clench_pressure_sensitivity) + '\n';
   } else if(!strcmp(option, "clench_threshold_2_orgasm")) {
