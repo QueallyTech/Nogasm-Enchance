@@ -31,6 +31,8 @@ namespace Hardware {
   byte getPressureSensitivity();
   String getDeviceSerial();
 
+  void setDeviceSerial(char *serial);
+
   namespace {
     void initializeEncoder();
 

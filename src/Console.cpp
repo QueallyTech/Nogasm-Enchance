@@ -97,6 +97,14 @@ namespace Console {
             }
         },
         {
+            .cmd = ".setser",
+            .alias = nullptr,
+            .help = nullptr,
+            .func = cmd_f {
+              Hardware::setDeviceSerial(args[0]);
+            }
+        },
+        {
             .cmd = ".debugsens",
             .alias = nullptr,
             .help = nullptr,

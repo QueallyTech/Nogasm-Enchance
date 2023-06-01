@@ -155,8 +155,9 @@ namespace Hardware {
         return String(serial);
     }
 
-    void setDeviceSerial(const char* serial) {
-        Serial.println("E_DEPRECATED");
+    void setDeviceSerial(char *serial) {
+        eom_hal_set_device_serial(serial);
+        Serial.println("OK");
     }
 
     void setMotorSpeed(int speed) {
