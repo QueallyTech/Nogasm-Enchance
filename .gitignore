@@ -1,0 +1,6 @@
+.idea
+.pio
+.vscode
+CMakeListsPrivate.txt
+cmake-build-*/ 
+venv
