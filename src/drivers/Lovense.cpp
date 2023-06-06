@@ -67,6 +67,7 @@ bool Lovense::waitForNotify() {
 }
 
 Device *Lovense::detect(NimBLEAdvertisedDevice *device, NimBLEClient *client, NimBLERemoteService *service) {
+  ESP_LOGE(TAG, "Start Detect");
   std::vector<NimBLERemoteCharacteristic *> *chars = service->getCharacteristics(true);
 
   NimBLERemoteCharacteristic *rxChar = nullptr;
@@ -86,7 +87,10 @@ Device *Lovense::detect(NimBLEAdvertisedDevice *device, NimBLEClient *client, Ni
     // found two chars, tx & rx, and we can write.
     ESP_LOGE(TAG, "- LVS rxChar = %s", rxChar->getUUID().toString().c_str());
     ESP_LOGE(TAG, "- LVS txChar = %s", txChar->getUUID().toString().c_str());
-    Lovense *d = new Lovense(device->getName().c_str(), client, rxChar, txChar);
-    return (BluetoothDriver::Device *) d;
+    Lovense *Device = new Lovense(device->getName().c_str(), client, rxChar, txChar);
+    ESP_LOGE(TAG, "Device connected: %s", device->getName().c_str());
+    return (BluetoothDriver::Device *) Device;
+  } else {
+    return nullptr;
   }
 }

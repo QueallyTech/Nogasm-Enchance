@@ -55,6 +55,7 @@ bool Nobra::sendf(const char *fmt, ...) {
 }
 
 Device *Nobra::detect(NimBLEAdvertisedDevice *device, NimBLEClient *client, NimBLERemoteService *service) {
+  ESP_LOGE(TAG, "Start Detect");
   std::vector<NimBLERemoteCharacteristic *> *chars = service->getCharacteristics(true);
   NimBLERemoteCharacteristic *writeChar = nullptr;
 
@@ -68,6 +69,9 @@ Device *Nobra::detect(NimBLEAdvertisedDevice *device, NimBLEClient *client, NimB
   bool looksLikeNobra = std::string(deviceName).find("NobraControl") != std::string::npos;
   if (writeCharacteristicFound && looksLikeNobra) {
     Nobra *nobraDevice = new Nobra(deviceName, client, writeChar);
+    ESP_LOGE(TAG, "Device connected: %s", deviceName);
     return (BluetoothDriver::Device *) nobraDevice;
+  } else {
+    return nullptr;
   }
 }

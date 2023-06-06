@@ -130,7 +130,8 @@ namespace BluetoothDriver {
 
     Device *detected_device = nullptr;
 
-    for (size_t i = 0; i < sizeof(DEVICE_DRIVERS); i += sizeof(DeviceDetectionCallback)) {
+    for (size_t i = 0; i < sizeof(DEVICE_DRIVERS); i++) {
+      ESP_LOGE(TAG, "using DEVICE_DRIVERS[%d]", i);
       detected_device = DEVICE_DRIVERS[i](device, client, service);
       if (detected_device != nullptr) break;
     }
