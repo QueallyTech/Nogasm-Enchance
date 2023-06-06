@@ -1,8 +1,8 @@
 #ifndef __config_h
 #define __config_h
 
-#include "errors.h"
 #include "VibrationModeController.h"
+#include "errors.h"
 
 #include <ArduinoJson.h>
 
@@ -20,17 +20,17 @@
 //#define NG_PLUS
 
 // Butt Pin
-#define MOT_PWM_PIN     15
+#define MOT_PWM_PIN 15
 
 // SD Connections
-#define SD_CS_PIN       5
+#define SD_CS_PIN 5
 
 // Encoder Connection
-#define ENCODER_B_PIN   32
-#define ENCODER_A_PIN   33
-#define ENCODER_RD_PIN  2
-#define ENCODER_BL_PIN  27
-#define ENCODER_GR_PIN  4
+#define ENCODER_B_PIN 32
+#define ENCODER_A_PIN 33
+#define ENCODER_RD_PIN 2
+#define ENCODER_BL_PIN 27
+#define ENCODER_GR_PIN 4
 
 #ifdef NG_PLUS
   // LCD Definitions
@@ -49,11 +49,11 @@
   #define ENCODER_BL_PIN 4
 #else
   // LCD Definitions
-  #define SCREEN_WIDTH    128
-  #define SCREEN_HEIGHT   64
-  #define OLED_DC         13
-  #define OLED_RESET      14
-  #define OLED_CS         12
+  #define SCREEN_WIDTH 128
+  #define SCREEN_HEIGHT 64
+  #define OLED_DC 13
+  #define OLED_RESET 14
+  #define OLED_CS 12
 #endif
 
 #define WIFI_SSID_MAX_LEN 64
@@ -63,7 +63,7 @@ bool atob(const char *a);
 
 union ConfigValue {
   byte v_byte;
-  int  v_int;
+  int v_int;
   char *v_char;
   bool v_bool;
 };
@@ -105,10 +105,10 @@ struct ConfigStruct {
   // Vibration Output Mode
   VibrationMode vibration_mode;
   PatternMode pattern_mode;
-  
+
   // Post orgasm torure stuff
   int clench_pressure_sensitivity;
-  int max_clench_duration; 
+  int max_clench_duration;
   int clench_threshold_2_orgasm;
   bool clench_detector_in_edging;
 

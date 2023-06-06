@@ -3,8 +3,8 @@
 
 #include "Page.h"
 #include "UserInterface.h"
-#include "assets.h"
 #include "VERSION.h"
+#include "assets.h"
 
 class pDebug : public Page {
   void Enter(bool) override {

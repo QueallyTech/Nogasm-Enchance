@@ -19,7 +19,7 @@ namespace WebSocketHelper {
 
   void connectToBridge(const char *hostname, int port);
 
-  void onMessage(int num, const char * payload);
+  void onMessage(int num, const char *payload);
 
   namespace {
     uint8_t last_connection;

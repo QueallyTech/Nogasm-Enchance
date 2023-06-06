@@ -5,7 +5,7 @@ namespace SDHelper {
   void printDirectoryJson(File dir, JsonVariant files) {
     while (true) {
       File entry = dir.openNextFile();
-      if (! entry) {
+      if (!entry) {
         break;
       }
 
@@ -13,7 +13,7 @@ namespace SDHelper {
       JsonObject file = list.createNestedObject();
       file["name"] = entry.name();
       file["size"] = entry.size();
-      file["dir"]  = entry.isDirectory();
+      file["dir"] = entry.isDirectory();
 
       entry.close();
     }
@@ -21,8 +21,8 @@ namespace SDHelper {
 
   void printDirectory(File dir, int numTabs, String &out) {
     while (true) {
-      File entry =  dir.openNextFile();
-      if (! entry) {
+      File entry = dir.openNextFile();
+      if (!entry) {
         // no more files
         break;
       }
@@ -44,7 +44,7 @@ namespace SDHelper {
 
   void printFile(File file, String &out) {
     while (file.available()) {
-      out += String((char)file.read());
+      out += String((char) file.read());
     }
     file.close();
   }

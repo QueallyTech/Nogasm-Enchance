@@ -1,12 +1,12 @@
 #ifndef __p_RUN_GRAPH_h
 #define __p_RUN_GRAPH_h
 
+#include "Hardware.h"
+#include "OrgasmControl.h"
 #include "Page.h"
 #include "UserInterface.h"
-#include "OrgasmControl.h"
-#include "Hardware.h"
-#include "assets.h"
 #include "WebSocketHelper.h"
+#include "assets.h"
 
 enum RGView {
   GraphView,
@@ -46,17 +46,17 @@ class pRunGraph : public Page {
       UI.drawStatus("Auto Edging");
       UI.setButton(1, "STOP");
       UI.setButton(2, "POST");
-    } else if (mode == Manual){
+    } else if (mode == Manual) {
       UI.drawStatus("Manual");
       UI.setButton(1, "STOP");
       UI.setButton(2, "AUTO");
-    } else if (mode == PostOrgasm){
+    } else if (mode == PostOrgasm) {
       UI.drawStatus("Edging+Orgasm");
       UI.setButton(1, "STOP");
       UI.setButton(2, "MANUAL");
-    } 
-    
-    if (OrgasmControl::isMenuLocked()){
+    }
+
+    if (OrgasmControl::isMenuLocked()) {
       UI.setButton(1, "LOCK");
       UI.setButton(2, "LOCK");
     }
@@ -102,7 +102,7 @@ class pRunGraph : public Page {
     }
 
     // Motor / Arousal bars
-    UI.drawBar(10, 'M', Hardware::getMotorSpeed(), 255, (mode == Automatic || mode == PostOrgasm ) ? Config.motor_max_speed : 0);
+    UI.drawBar(10, 'M', Hardware::getMotorSpeed(), 255, (mode == Automatic || mode == PostOrgasm) ? Config.motor_max_speed : 0);
     UI.drawBar(SCREEN_HEIGHT - 18, 'A', OrgasmControl::getArousal(), 1023, Config.sensitivity_threshold, arousal_peak);
 
     // Pressure Icon
@@ -115,7 +115,7 @@ class pRunGraph : public Page {
     const int press_x = 24 + 2;  // icon_x + icon_width + 2
     const int press_y = 19 + 12; // icon_y + (icon_height / 2)
     UI.drawCompactBar(press_x, press_y, horiz_split_x - press_x - 9, OrgasmControl::getAveragePressure(), 4095,
-                   Config.sensor_sensitivity, 255);
+                      Config.sensor_sensitivity, 255);
 
     // Draw a Border!
     UI.display->drawLine(horiz_split_x - 3, 19, horiz_split_x - 3, SCREEN_HEIGHT - 21, SSD1306_WHITE);
@@ -154,7 +154,7 @@ class pRunGraph : public Page {
   }
 
   void onKeyPress(byte i) {
-  
+
     switch (i) {
       case 0:
         if (view == GraphView) {
@@ -194,7 +194,7 @@ class pRunGraph : public Page {
 
   void onEncoderChange(int diff) override {
     const int step = 255 / 20;
-    if (OrgasmControl::isMenuLocked()){
+    if (OrgasmControl::isMenuLocked()) {
       UI.toastNow("Access Denied", 1000);
       return;
     }
@@ -209,15 +209,15 @@ class pRunGraph : public Page {
     Rerender();
   }
 
-public:
-  void setMode(const char* newMode) {
-    if (! strcmp(newMode, "automatic")) {
+  public:
+  void setMode(const char *newMode) {
+    if (!strcmp(newMode, "automatic")) {
       mode = Automatic;
       OrgasmControl::controlMotor(true);
-    } else if (! strcmp(newMode, "manual")) {
+    } else if (!strcmp(newMode, "manual")) {
       mode = Manual;
       OrgasmControl::controlMotor(false);
-    } else if (! strcmp(newMode, "postorgasm")) {
+    } else if (!strcmp(newMode, "postorgasm")) {
       mode = PostOrgasm;
       OrgasmControl::controlMotor(true);
     }
@@ -226,7 +226,7 @@ public:
   }
 
   int getMode() {
-    switch(mode) {
+    switch (mode) {
       case Manual:
         return 0;
       case Automatic:

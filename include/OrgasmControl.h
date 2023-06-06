@@ -1,10 +1,10 @@
 #ifndef __OrgasmControl_h
 #define __OrgasmControl_h
 
-#include <Arduino.h>
-#include "config.h"
 #include "RunningAverage.h"
 #include "VibrationModeController.h"
+#include "config.h"
+#include <Arduino.h>
 #include <SD.h>
 
 namespace OrgasmControl {
@@ -67,7 +67,7 @@ namespace OrgasmControl {
     // File Writer
     long recording_start_ms = 0;
     File logfile;
-    
+
     //  Post Orgasm Clench variables
     long clench_pressure_threshold = 4096;
     int clench_duration = 0;
@@ -79,12 +79,12 @@ namespace OrgasmControl {
     bool menu_is_locked = false;
     bool detected_orgasm = false;
     int post_orgasm_duration_seconds;
- 
+
 
     void updateArousal();
     void updateMotorSpeed();
     void updateEdgingTime();
-    VibrationModeController* getVibrationMode();
+    VibrationModeController *getVibrationMode();
   }
 }
 

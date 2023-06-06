@@ -10,9 +10,9 @@ enum class VibrationMode {
 };
 
 enum class PatternMode {
-    Step = 1,
-    Wave = 2,
-    Sawtooth = 3
+  Step = 1,
+  Wave = 2,
+  Sawtooth = 3
 };
 
 struct VibrationPattern {
@@ -22,14 +22,14 @@ struct VibrationPattern {
 };
 
 class VibrationModeController {
-public:
+  public:
   virtual float start() { return 0; };
   virtual float increment() { return 0; };
   virtual float stop() { return 0; };
 
   void tick(float motor_speed, long arousal);
 
-protected:
+  protected:
   float motor_speed = 0;
   long arousal = 0;
 
@@ -45,7 +45,8 @@ class EnhancementController : public VibrationModeController {
   float start();
   float increment();
   float stop();
-private:
+
+  private:
   bool stopped = false;
 };
 
@@ -53,21 +54,21 @@ class DepletionController : public VibrationModeController {
   float start();
   float increment();
 
-private:
+  private:
   float base_speed = 0;
 };
 
 class PatternController : public VibrationModeController {
-public:
+  public:
   PatternController();
 
   float start();
   float increment();
 
-  template <int N>
+  template<int N>
   void setPattern(VibrationPattern (&pattern)[N]);
 
-private:
+  private:
   int pattern_step = 0;
   long step_ticks = 0;
 

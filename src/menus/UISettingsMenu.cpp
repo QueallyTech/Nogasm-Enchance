@@ -1,9 +1,9 @@
-#include "UIMenu.h"
 #include "UIInput.h"
+#include "UIMenu.h"
 #include "config.h"
 
 UIInput ScreenDim("Screen Dim (s)", [](UIMenu *ip) {
-  UIInput *input = (UIInput*) ip;
+  UIInput *input = (UIInput *) ip;
   input->setMax(360);
   input->setStep(10);
   input->setValue(Config.screen_dim_seconds);
@@ -14,7 +14,7 @@ UIInput ScreenDim("Screen Dim (s)", [](UIMenu *ip) {
 });
 
 UIInput ScreenTimeout("Screen Timeout", [](UIMenu *ip) {
-  UIInput *input = (UIInput*) ip;
+  UIInput *input = (UIInput *) ip;
   input->setMax(360);
   input->setStep(10);
   input->setValue(Config.screen_timeout_seconds);

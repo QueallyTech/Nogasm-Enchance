@@ -4,7 +4,7 @@
 #include "config.h"
 
 #define BUTTON_HEIGHT 9
-#define BUTTON_WIDTH  42 // (SCREEN_WIDTH / 3)
+#define BUTTON_WIDTH 42 // (SCREEN_WIDTH / 3)
 #define BUTTON_START_Y (SCREEN_HEIGHT - BUTTON_HEIGHT)
 
 #define CHART_START_Y 20
@@ -46,15 +46,15 @@ typedef struct {
 } UIButton;
 
 class UserInterface {
-public:
-  UserInterface(Adafruit_SSD1306* display);
+  public:
+  UserInterface(Adafruit_SSD1306 *display);
   bool begin();
   void tick();
 
   // Common Element Drawing Functions
   void drawChartAxes();
   void drawChart(int peakLimit);
-  void drawStatus(const char* status = nullptr);
+  void drawStatus(const char *status = nullptr);
   void drawPattern(int start_x, int start_y, int width, int height, int pattern = 2, int color = SSD1306_WHITE);
 
   // Chart Data
@@ -79,7 +79,7 @@ public:
   // Buttons
   void clearButtons();
   void clearButton(byte i);
-  void setButton(byte i, char* text, ButtonCallback fn = nullptr);
+  void setButton(byte i, char *text, ButtonCallback fn = nullptr);
   void drawButtons();
   void onKeyPress(byte i);
   void onEncoderChange(int value);
@@ -109,24 +109,24 @@ public:
   void screenshot(String &buffer);
   void screenshot(void);
 
-  Adafruit_SSD1306* display;
+  Adafruit_SSD1306 *display;
 
-private:
+  private:
   bool display_on = true;
 
   // Chart Data:
-  int chartReadings[2][CHART_WIDTH] = {{0}, {0}};
-  uint8_t chartCursor[2] = {0,0};
+  int chartReadings[2][CHART_WIDTH] = { { 0 }, { 0 } };
+  uint8_t chartCursor[2] = { 0, 0 };
 
   // Buttons
   UIButton buttons[3];
 
   // Header Data
-  char status[STATUS_SIZE + 1] = {0};
+  char status[STATUS_SIZE + 1] = { 0 };
   UIIcon icons[4];
 
   // Toast Data
-  char toast_message[(TOAST_WIDTH*TOAST_LINES)+1] = "";
+  char toast_message[(TOAST_WIDTH * TOAST_LINES) + 1] = "";
   long toast_expiration = 0;
   bool toast_render_pending = false;
   bool toast_allow_clear = true;

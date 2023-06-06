@@ -1,14 +1,14 @@
 #include "WebSocketHelper.h"
-#include "WebSocketSecureHelper.h"
 #include "VERSION.h"
+#include "WebSocketSecureHelper.h"
 
 #include <FS.h>
 #include <SD.h>
 #include <SPI.h>
 
 #include "Console.h"
-#include "OrgasmControl.h"
 #include "Hardware.h"
+#include "OrgasmControl.h"
 #include "Page.h"
 #include "SDHelper.h"
 
@@ -16,7 +16,7 @@
 
 #include "config.h"
 
-static const char* TAG = "WebSocketHelper";
+static const char *TAG = "WebSocketHelper";
 
 namespace WebSocketHelper {
   void begin() {
@@ -32,7 +32,7 @@ namespace WebSocketHelper {
     WebSocketSecureHelper::end();
   }
 
-  void send(const char* cmd, JsonDocument& doc, int num) {
+  void send(const char *cmd, JsonDocument &doc, int num) {
     DynamicJsonDocument envelope(1024);
     envelope[cmd] = doc;
 
@@ -42,40 +42,40 @@ namespace WebSocketHelper {
     WebSocketSecureHelper::send(num, payload);
   }
 
-  void send(const char* cmd, String text, int num) {
+  void send(const char *cmd, String text, int num) {
     DynamicJsonDocument doc(1024);
     doc["text"] = text;
     send(cmd, doc, num);
   }
 
-  static void _ws_client_evt_handler(void* handler_args, esp_event_base_t base, int32_t event_id, void* event_data) {
-    esp_websocket_event_data_t* data = (esp_websocket_event_data_t*) event_data;
+  static void _ws_client_evt_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
+    esp_websocket_event_data_t *data = (esp_websocket_event_data_t *) event_data;
     switch (event_id) {
-    case WEBSOCKET_EVENT_CONNECTED:
-      ESP_LOGE(TAG, "WEBSOCKET_EVENT_CONNECTED");
-      break;
-    case WEBSOCKET_EVENT_DISCONNECTED:
-      ESP_LOGE(TAG, "WEBSOCKET_EVENT_DISCONNECTED");
-      break;
-    case WEBSOCKET_EVENT_DATA:
-      ESP_LOGE(TAG, "WEBSOCKET_EVENT_DATA");
-      ESP_LOGE(TAG, "Received opcode=%d", data->op_code);
-      if (data->op_code == 0x08 && data->data_len == 2) {
-        ESP_LOGW(TAG, "Received closed message with code=%d", 256 * data->data_ptr[0] + data->data_ptr[1]);
-      } else {
-        ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char*) data->data_ptr);
-      }
-      ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
-      break;
-    case WEBSOCKET_EVENT_ERROR:
-      ESP_LOGE(TAG, "WEBSOCKET_EVENT_ERROR");
-      break;
+      case WEBSOCKET_EVENT_CONNECTED:
+        ESP_LOGE(TAG, "WEBSOCKET_EVENT_CONNECTED");
+        break;
+      case WEBSOCKET_EVENT_DISCONNECTED:
+        ESP_LOGE(TAG, "WEBSOCKET_EVENT_DISCONNECTED");
+        break;
+      case WEBSOCKET_EVENT_DATA:
+        ESP_LOGE(TAG, "WEBSOCKET_EVENT_DATA");
+        ESP_LOGE(TAG, "Received opcode=%d", data->op_code);
+        if (data->op_code == 0x08 && data->data_len == 2) {
+          ESP_LOGW(TAG, "Received closed message with code=%d", 256 * data->data_ptr[0] + data->data_ptr[1]);
+        } else {
+          ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *) data->data_ptr);
+        }
+        ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
+        break;
+      case WEBSOCKET_EVENT_ERROR:
+        ESP_LOGE(TAG, "WEBSOCKET_EVENT_ERROR");
+        break;
     }
   }
 
-  void connectToBridge(const char* hostname, int port) {
+  void connectToBridge(const char *hostname, int port) {
     char uri[101] = "";
-    const char* token = "TEST123";
+    const char *token = "TEST123";
     snprintf(uri, 100, "ws://%s:%d/device/%s", hostname, port, token);
     ESP_LOGE(TAG, "Connecting to Maus-Link Bridge at %s\n", uri);
 
@@ -92,7 +92,7 @@ namespace WebSocketHelper {
       return;
     }
 
-    esp_websocket_register_events(ws_client, WEBSOCKET_EVENT_ANY, _ws_client_evt_handler, (void*) ws_client);
+    esp_websocket_register_events(ws_client, WEBSOCKET_EVENT_ANY, _ws_client_evt_handler, (void *) ws_client);
     esp_err_t err = esp_websocket_client_start(ws_client);
 
     if (err == ESP_OK) {
@@ -140,18 +140,18 @@ namespace WebSocketHelper {
     doc["size"] = cardSize;
 
     switch (cardType) {
-    case CARD_MMC:
-      doc["type"] = "MMC";
-      break;
-    case CARD_SD:
-      doc["type"] = "SD";
-      break;
-    case CARD_SDHC:
-      doc["type"] = "SDHC";
-      break;
-    default:
-      doc["type"] = "UNKNOWN";
-      break;
+      case CARD_MMC:
+        doc["type"] = "MMC";
+        break;
+      case CARD_SD:
+        doc["type"] = "SD";
+        break;
+      case CARD_SDHC:
+        doc["type"] = "SDHC";
+        break;
+      default:
+        doc["type"] = "UNKNOWN";
+        break;
     }
 
     send("sdStatus", doc, num);
@@ -165,15 +165,15 @@ namespace WebSocketHelper {
     int scaled_arousal = OrgasmControl::getArousal() * 4;
 
     switch (RunGraphPage.getMode()) {
-    case 0:
-      strlcpy(mode, "Manual", sizeof(mode));
-      break;
-    case 1:
-      strlcpy(mode, "Automatic", sizeof(mode));
-      break;
-    case 2:
-      strlcpy(mode, "PostOrgasm", sizeof(mode));
-      break;
+      case 0:
+        strlcpy(mode, "Manual", sizeof(mode));
+        break;
+      case 1:
+        strlcpy(mode, "Automatic", sizeof(mode));
+        break;
+      case 2:
+        strlcpy(mode, "PostOrgasm", sizeof(mode));
+        break;
     }
 
     // Serialize Data
@@ -273,7 +273,7 @@ namespace WebSocketHelper {
     auto config = args.as<JsonObject>();
     bool restart_required = false;
 
-    for (auto kvp : config) {
+    for (auto kvp: config) {
       setConfigValue(kvp.key().c_str(), kvp.value().as<String>().c_str(), restart_required);
     }
 
@@ -297,7 +297,7 @@ namespace WebSocketHelper {
     OrgasmControl::lockMenuNow(value);
   }
 
-  void onMessage(int num, const char* payload) {
+  void onMessage(int num, const char *payload) {
     Serial.printf("[%u] %s", num, payload);
     Serial.println();
 
@@ -307,7 +307,7 @@ namespace WebSocketHelper {
     if (err) {
       Serial.println("Deserialization Error!");
     } else {
-      for (auto kvp : doc.as<JsonObject>()) {
+      for (auto kvp: doc.as<JsonObject>()) {
         auto cmd = kvp.key().c_str();
 
         if (!strcmp(cmd, "configSet")) {

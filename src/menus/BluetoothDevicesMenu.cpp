@@ -1,11 +1,11 @@
-#include "UIMenu.h"
 #include "BluetoothDriver.h"
-#include "UserInterface.h"
 #include "OrgasmControl.h"
+#include "UIMenu.h"
+#include "UserInterface.h"
 
 static void doDisconnect(UIMenu *menu, void *d) {
-  BluetoothDriver::Device *device = (BluetoothDriver::Device*) d;
-  
+  BluetoothDriver::Device *device = (BluetoothDriver::Device *) d;
+
   if (device == nullptr) {
     log_i("BLAAAAAH");
   } else {
@@ -45,7 +45,7 @@ static void buildVibrateModeMenu(UIMenu *menu) {
 UIMenu VibrateModeMenu("Vibrate Mode", &buildVibrateModeMenu);
 
 static void buildDeviceMenu(UIMenu *menu) {
-  BluetoothDriver::Device *device = (BluetoothDriver::Device*) menu->getCurrentArg();
+  BluetoothDriver::Device *device = (BluetoothDriver::Device *) menu->getCurrentArg();
   char buf[40 + 1] = "";
   device->getName(buf, 40);
 

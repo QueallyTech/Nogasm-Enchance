@@ -1,7 +1,6 @@
 #include "BluetoothServer.h"
 
 BluetoothServer::BluetoothServer() {
-
 }
 
 BluetoothServer::~BluetoothServer() {
@@ -29,10 +28,9 @@ void BluetoothServer::begin() {
 
   Serial.println("Create Characteristic");
   this->characteristic = this->service->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      NIMBLE_PROPERTY::READ |
-      NIMBLE_PROPERTY::WRITE
-  );
+    CHARACTERISTIC_UUID,
+    NIMBLE_PROPERTY::READ |
+      NIMBLE_PROPERTY::WRITE);
 
   Serial.println("Set Characteristic");
   this->characteristic->setValue("What?");
@@ -40,9 +38,9 @@ void BluetoothServer::begin() {
 }
 
 void BluetoothServer::advertise() {
-//  this->advertising = this->server->getAdvertising();
+  //  this->advertising = this->server->getAdvertising();
   // FIXME: Broken after move to NimBLE
-//  this->advertising->start();
+  //  this->advertising->start();
 }
 
 void BluetoothServer::stopAdvertising() {

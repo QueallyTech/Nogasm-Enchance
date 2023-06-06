@@ -37,9 +37,9 @@ class UIMenu;
 class Page;
 
 //typedef void(*MenuCallback)(UIMenu*);
-typedef std::function<void(UIMenu*)> MenuCallback;
-typedef std::function<void(UIMenu*, void*)> ParameterizedMenuCallback;
-typedef std::function<void(UIMenu*, int)> IParameterizedMenuCallback;
+typedef std::function<void(UIMenu *)> MenuCallback;
+typedef std::function<void(UIMenu *, void *)> ParameterizedMenuCallback;
+typedef std::function<void(UIMenu *, int)> IParameterizedMenuCallback;
 
 enum AutocleanMethod {
   AUTOCLEAN_OFF,
@@ -59,10 +59,10 @@ typedef struct UIMenuItem {
 } UIMenuItem;
 
 class UIMenu {
-public:
+  public:
   // Construction
   UIMenu(const char *t, MenuCallback = nullptr);
-  virtual ~UIMenu() {};
+  virtual ~UIMenu(){};
   void initialize(bool reinit = false);
   void rerender();
 
@@ -110,7 +110,7 @@ public:
 
   void enableAutoCleanup(AutocleanMethod m) { autoclean = m; };
 
-protected:
+  protected:
   char title[TITLE_SIZE + 1];
 
   UIMenu *prev = nullptr;
@@ -118,7 +118,7 @@ protected:
 
   UIMenuItem *getNthItem(int n);
 
-private:
+  private:
   UIMenuItem *first_item = nullptr;
   UIMenuItem *last_item = nullptr;
   UIMenuItem *current_item = nullptr;

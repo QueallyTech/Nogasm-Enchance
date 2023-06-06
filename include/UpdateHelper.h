@@ -1,9 +1,9 @@
 #ifndef __UPDATEHELPER_H
 #define __UPDATEHELPER_H
 
-#include <Update.h>
 #include <FS.h>
 #include <SD_MMC.h>
+#include <Update.h>
 
 #define REMOTE_UPDATE_URL "http://us-central1-maustec-io.cloudfunctions.net/gh-release-embedded-bridge"
 #define UPDATE_FILENAME "/update.bin"

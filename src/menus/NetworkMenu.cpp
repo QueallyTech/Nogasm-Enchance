@@ -1,9 +1,9 @@
+#include "BluetoothDriver.h"
+#include "BluetoothServer.h"
 #include "UIMenu.h"
 #include "UserInterface.h"
-#include "WiFiHelper.h"
-#include "BluetoothServer.h"
-#include "BluetoothDriver.h"
 #include "WebSocketHelper.h"
+#include "WiFiHelper.h"
 
 #include <WiFi.h>
 
@@ -39,14 +39,14 @@ static void onEnableWiFi(UIMenu *menu) {
   menu->render();
 }
 
-static void onViewStatus(UIMenu*) {
+static void onViewStatus(UIMenu *) {
   String status = "";
 
   if (Config.bt_on) {
     status += "Bluetooth On\n";
     status += String(Config.bt_display_name) + '\n';
-  } 
-  
+  }
+
   if (WiFiHelper::connected()) {
     status += "Connected\n";
     status += WiFiHelper::ip() + '\n';
@@ -57,7 +57,7 @@ static void onViewStatus(UIMenu*) {
   UI.toast(status.c_str(), 0);
 }
 
-static void onEnableBluetooth(UIMenu* menu) {
+static void onEnableBluetooth(UIMenu *menu) {
   UI.toastNow("Enabling...", 0, false);
   Config.bt_on = true;
 
@@ -77,7 +77,7 @@ static void onEnableBluetooth(UIMenu* menu) {
   UI.toastNow("Bluetooth On", 3000);
 }
 
-static void onDisableBluetooth(UIMenu* menu) {
+static void onDisableBluetooth(UIMenu *menu) {
   UI.toastNow("Disconnecting...", 0, false);
   Config.bt_on = false;
   saveConfigToSd(0);
@@ -112,7 +112,7 @@ static void buildMenu(UIMenu *menu) {
   if (Config.wifi_on) {
     menu->addItem("Turn WiFi Off", &onDisableWiFi);
   }
-  
+
   if (WiFiHelper::connected()) {
     menu->addItem("Disconnect WiFi", &onDisconnect);
 

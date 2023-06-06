@@ -6,15 +6,15 @@
 #define HISTORY_LENGTH 5
 
 class Page {
-public:
+  public:
   // Navigation
-  static void Go(Page* page, bool saveHistory = true);
+  static void Go(Page *page, bool saveHistory = true);
   static void GoBack();
   static void DoLoop();
   static void Rerender();
   static void Reenter();
   static void AttachButtonHandlers();
-  static Page* CurrentPage();
+  static Page *CurrentPage();
 
   // Page Lifecycle
   virtual void Render();
@@ -26,15 +26,15 @@ public:
   virtual void onKeyPress(byte i);
   virtual void onEncoderChange(int diff);
 
-  static Page* currentPage;
+  static Page *currentPage;
 
-private:
-  static Page* previousPage;
-  static Page* previousPages[HISTORY_LENGTH];
+  private:
+  static Page *previousPage;
+  static Page *previousPages[HISTORY_LENGTH];
   static size_t historyIndex;
 
-  static void pushHistory(Page* page);
-  static Page* popHistory();
+  static void pushHistory(Page *page);
+  static Page *popHistory();
 };
 
 #include "../src/pages/pDebug.h"

@@ -27,9 +27,8 @@ namespace WebSocketSecureHelper {
     if (Config.use_ssl) {
       // Create an SSL certificate object from the files included above ...
       cert = new SSLCert(
-          example_crt_DER, example_crt_DER_len,
-          example_key_DER, example_key_DER_len
-      );
+        example_crt_DER, example_crt_DER_len,
+        example_key_DER, example_key_DER_len);
 
       // ... and create a server based on this certificate.
       // The constructor has some optional parameters like the TCP port that should be used
@@ -97,7 +96,7 @@ namespace WebSocketSecureHelper {
 
   void send(int num, String payload) {
     if (num >= 0) {
-      RemoteHandler *c = (RemoteHandler*) activeClients[num];
+      RemoteHandler *c = (RemoteHandler *) activeClients[num];
       if (c != nullptr)
         c->sendText(payload);
     } else {

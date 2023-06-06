@@ -14,7 +14,7 @@
  * TODO: This can be merged into BluetoohDriver.h
  */
 class BluetoothServer {
-public:
+  public:
   BluetoothServer();
   ~BluetoothServer();
   void begin();
@@ -22,7 +22,7 @@ public:
   void disconnect();
   void stopAdvertising();
 
-private:
+  private:
   BLEServer *server;
   BLEService *service;
   BLECharacteristic *characteristic;

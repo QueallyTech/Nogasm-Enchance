@@ -5,8 +5,8 @@
 
 #include "UserInterface.h"
 
-#include <FastLED.h>
 #include <ESP32Encoder.h>
+#include <FastLED.h>
 #include <analogWrite.h>
 
 namespace Hardware {

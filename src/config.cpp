@@ -5,10 +5,10 @@
 #include "SD.h"
 #include "SPI.h"
 
-#include "config.h"
-#include "UserInterface.h"
 #include "Hardware.h"
 #include "Page.h"
+#include "UserInterface.h"
+#include "config.h"
 
 #include <FastLED.h>
 
@@ -21,16 +21,15 @@ ConfigStruct Config;
  * @return
  */
 bool atob(const char *a) {
-//  for (int i = 0; a[i]; i++) {
-//    a[i] = tolower(a[i]);
-//  }
+  //  for (int i = 0; a[i]; i++) {
+  //    a[i] = tolower(a[i]);
+  //  }
 
   return !(
-      strcmp(a, "false") == 0 ||
-      strcmp(a, "no") == 0 ||
-      strcmp(a, "off") == 0 ||
-      strcmp(a, "0") == 0
-  );
+    strcmp(a, "false") == 0 ||
+    strcmp(a, "no") == 0 ||
+    strcmp(a, "off") == 0 ||
+    strcmp(a, "0") == 0);
 }
 
 /**
@@ -104,9 +103,9 @@ void loadConfigFromJsonObject(JsonDocument &doc) {
   Config.use_average_values = doc["use_average_values"] | false;
 
   // Copy Vibration Settings
-  Config.vibration_mode = (VibrationMode)(doc["vibration_mode"] | (int)VibrationMode::RampStop);
-  Config.pattern_mode = (PatternMode)(doc["pattern_mode"] | (int)PatternMode::Step);
-  
+  Config.vibration_mode = (VibrationMode) (doc["vibration_mode"] | (int) VibrationMode::RampStop);
+  Config.pattern_mode = (PatternMode) (doc["pattern_mode"] | (int) PatternMode::Step);
+
   // Post orgasm torture settings. The clench_pressure_sensitivity might need ajustment on the Edge-o-matic
   Config.clench_pressure_sensitivity = doc["clench_pressure_sensitivity"] | 200;
   Config.clench_threshold_2_orgasm = doc["clench_threshold_2_orgasm"] | 35;
@@ -166,7 +165,7 @@ void dumpConfigToJsonObject(JsonDocument &doc) {
   // Vibration Settings
   doc["vibration_mode"] = (int) Config.vibration_mode;
   doc["pattern_mode"] = (int) Config.pattern_mode;
-  
+
   // Post orgasm torture settings
   doc["clench_pressure_sensitivity"] = Config.clench_pressure_sensitivity;
   doc["clench_threshold_2_orgasm"] = Config.clench_threshold_2_orgasm;
@@ -241,43 +240,43 @@ bool setConfigValue(const char *option, const char *value, bool &require_reboot)
   if (!strcmp(option, "wifi_on")) {
     Config.wifi_on = atob(value);
     require_reboot = true;
-  } else if(!strcmp(option, "bt_on")) {
+  } else if (!strcmp(option, "bt_on")) {
     Config.bt_on = atob(value);
     require_reboot = true;
-  } else if(!strcmp(option, "force_bt_coex")) {
+  } else if (!strcmp(option, "force_bt_coex")) {
     Config.force_bt_coex = atob(value);
-  } else if(!strcmp(option, "led_brightness")) {
+  } else if (!strcmp(option, "led_brightness")) {
     Config.led_brightness = atoi(value);
-  } else if(!strcmp(option, "websocket_port")) {
+  } else if (!strcmp(option, "websocket_port")) {
     Config.websocket_port = atoi(value);
     require_reboot = true;
-  } else if(!strcmp(option, "motor_max_speed")) {
+  } else if (!strcmp(option, "motor_max_speed")) {
     Config.motor_max_speed = atoi(value);
-  } else if(!strcmp(option, "motor_start_speed")) {
+  } else if (!strcmp(option, "motor_start_speed")) {
     Config.motor_start_speed = atoi(value);
-  } else if(!strcmp(option, "edge_delay")) {
+  } else if (!strcmp(option, "edge_delay")) {
     Config.edge_delay = atoi(value);
-  } else if(!strcmp(option, "max_additional_delay")) {
+  } else if (!strcmp(option, "max_additional_delay")) {
     Config.max_additional_delay = atoi(value);
-  } else if(!strcmp(option, "minimum_on_time")) {
+  } else if (!strcmp(option, "minimum_on_time")) {
     Config.minimum_on_time = atoi(value);
-  } else if(!strcmp(option, "screen_dim_seconds")) {
+  } else if (!strcmp(option, "screen_dim_seconds")) {
     Config.screen_dim_seconds = atoi(value);
-  } else if(!strcmp(option, "screen_timeout_seconds")) {
+  } else if (!strcmp(option, "screen_timeout_seconds")) {
     Config.screen_timeout_seconds = atoi(value);
-  } else if(!strcmp(option, "pressure_smoothing")) {
+  } else if (!strcmp(option, "pressure_smoothing")) {
     Config.pressure_smoothing = atoi(value);
-  } else if(!strcmp(option, "classic_serial")) {
+  } else if (!strcmp(option, "classic_serial")) {
     Config.classic_serial = atob(value);
-  } else if(!strcmp(option, "use_average_values")) {
+  } else if (!strcmp(option, "use_average_values")) {
     Config.use_average_values = atob(value);
-  } else if(!strcmp(option, "sensitivity_threshold")) {
+  } else if (!strcmp(option, "sensitivity_threshold")) {
     Config.sensitivity_threshold = atoi(value);
-  } else if(!strcmp(option, "motor_ramp_time_s")) {
+  } else if (!strcmp(option, "motor_ramp_time_s")) {
     Config.motor_ramp_time_s = atoi(value);
-  } else if(!strcmp(option, "update_frequency_hz")) {
+  } else if (!strcmp(option, "update_frequency_hz")) {
     Config.update_frequency_hz = atoi(value);
-  } else if(!strcmp(option, "sensor_sensitivity")) {
+  } else if (!strcmp(option, "sensor_sensitivity")) {
     Config.sensor_sensitivity = atoi(value);
     Hardware::setPressureSensitivity(Config.sensor_sensitivity);
   } else if (!strcmp(option, "knob_rgb")) {
@@ -297,23 +296,23 @@ bool setConfigValue(const char *option, const char *value, bool &require_reboot)
     require_reboot = true;
   } else if (!strcmp(option, "vibration_mode")) {
     Config.vibration_mode = (VibrationMode) atoi(value);
-  }  else if (!strcmp(option, "pattern_mode")) {
+  } else if (!strcmp(option, "pattern_mode")) {
     Config.pattern_mode = (PatternMode) atoi(value);
-  } else if(!strcmp(option, "clench_pressure_sensitivity")) {
+  } else if (!strcmp(option, "clench_pressure_sensitivity")) {
     Config.clench_pressure_sensitivity = atoi(value);
-  } else if(!strcmp(option, "clench_threshold_2_orgasm")) {
+  } else if (!strcmp(option, "clench_threshold_2_orgasm")) {
     Config.clench_threshold_2_orgasm = atoi(value);
-  } else if(!strcmp(option, "clench_detector_in_edging")) {
+  } else if (!strcmp(option, "clench_detector_in_edging")) {
     Config.clench_detector_in_edging = atob(value);
-  } else if(!strcmp(option, "auto_edging_duration_minutes")) {
+  } else if (!strcmp(option, "auto_edging_duration_minutes")) {
     Config.auto_edging_duration_minutes = atoi(value);
-  } else if(!strcmp(option, "post_orgasm_duration_seconds")) {
+  } else if (!strcmp(option, "post_orgasm_duration_seconds")) {
     Config.post_orgasm_duration_seconds = atoi(value);
-  } else if(!strcmp(option, "max_clench_duration")) {
+  } else if (!strcmp(option, "max_clench_duration")) {
     Config.max_clench_duration = atoi(value);
-  } else if(!strcmp(option, "post_orgasm_menu_lock")) {
+  } else if (!strcmp(option, "post_orgasm_menu_lock")) {
     Config.post_orgasm_menu_lock = atob(value);
-  } else if(!strcmp(option, "edge_menu_lock")) {
+  } else if (!strcmp(option, "edge_menu_lock")) {
     Config.edge_menu_lock = atob(value);
   } else {
     return false;
@@ -325,41 +324,41 @@ bool setConfigValue(const char *option, const char *value, bool &require_reboot)
 bool getConfigValue(const char *option, String &out) {
   if (!strcmp(option, "wifi_on")) {
     out += String(Config.wifi_on) + '\n';
-  } else if(!strcmp(option, "bt_on")) {
+  } else if (!strcmp(option, "bt_on")) {
     out += String(Config.bt_on) + '\n';
-  } else if(!strcmp(option, "force_bt_coex")) {
+  } else if (!strcmp(option, "force_bt_coex")) {
     out += String(Config.force_bt_coex) + '\n';
-  } else if(!strcmp(option, "led_brightness")) {
+  } else if (!strcmp(option, "led_brightness")) {
     out += String(Config.led_brightness) + '\n';
-  } else if(!strcmp(option, "websocket_port")) {
+  } else if (!strcmp(option, "websocket_port")) {
     out += String(Config.websocket_port) + '\n';
-  } else if(!strcmp(option, "motor_max_speed")) {
+  } else if (!strcmp(option, "motor_max_speed")) {
     out += String(Config.motor_max_speed) + '\n';
-  } else if(!strcmp(option, "motor_start_speed")) {
+  } else if (!strcmp(option, "motor_start_speed")) {
     out += String(Config.motor_start_speed) + '\n';
-  } else if(!strcmp(option, "edge_delay")) {
+  } else if (!strcmp(option, "edge_delay")) {
     out += String(Config.edge_delay) + '\n';
-  } else if(!strcmp(option, "max_additional_delay")) {
+  } else if (!strcmp(option, "max_additional_delay")) {
     out += String(Config.max_additional_delay) + '\n';
-  } else if(!strcmp(option, "minimum_on_time")) {
+  } else if (!strcmp(option, "minimum_on_time")) {
     out += String(Config.minimum_on_time) + '\n';
-  } else if(!strcmp(option, "screen_dim_seconds")) {
+  } else if (!strcmp(option, "screen_dim_seconds")) {
     out += String(Config.screen_dim_seconds) + '\n';
-  } else if(!strcmp(option, "screen_timeout_seconds")) {
+  } else if (!strcmp(option, "screen_timeout_seconds")) {
     out += String(Config.screen_timeout_seconds) + '\n';
-  } else if(!strcmp(option, "pressure_smoothing")) {
+  } else if (!strcmp(option, "pressure_smoothing")) {
     out += String(Config.pressure_smoothing) + '\n';
-  } else if(!strcmp(option, "classic_serial")) {
+  } else if (!strcmp(option, "classic_serial")) {
     out += String(Config.classic_serial) + '\n';
-  } else if(!strcmp(option, "use_average_values")) {
+  } else if (!strcmp(option, "use_average_values")) {
     out += String(Config.use_average_values) + '\n';
-  } else if(!strcmp(option, "sensitivity_threshold")) {
+  } else if (!strcmp(option, "sensitivity_threshold")) {
     out += String(Config.sensitivity_threshold) + '\n';
-  } else if(!strcmp(option, "motor_ramp_time_s")) {
+  } else if (!strcmp(option, "motor_ramp_time_s")) {
     out += String(Config.motor_ramp_time_s) + '\n';
-  } else if(!strcmp(option, "update_frequency_hz")) {
+  } else if (!strcmp(option, "update_frequency_hz")) {
     out += String(Config.update_frequency_hz) + '\n';
-  } else if(!strcmp(option, "sensor_sensitivity")) {
+  } else if (!strcmp(option, "sensor_sensitivity")) {
     out += String(Config.sensor_sensitivity) + '\n';
   } else if (!strcmp(option, "knob_rgb")) {
     out += ("Usage: set knob_rgb 0xFFCCAA") + '\n';
@@ -377,21 +376,21 @@ bool getConfigValue(const char *option, String &out) {
     out += String((int) Config.vibration_mode) + '\n';
   } else if (!strcmp(option, "pattern_mode")) {
     out += String((int) Config.pattern_mode) + '\n';
-  } else if(!strcmp(option, "clench_pressure_sensitivity")) { 
+  } else if (!strcmp(option, "clench_pressure_sensitivity")) {
     out += String(Config.clench_pressure_sensitivity) + '\n';
-  } else if(!strcmp(option, "clench_threshold_2_orgasm")) {
+  } else if (!strcmp(option, "clench_threshold_2_orgasm")) {
     out += String(Config.clench_threshold_2_orgasm) + '\n';
-  } else if(!strcmp(option, "clench_detector_in_edging")) {
+  } else if (!strcmp(option, "clench_detector_in_edging")) {
     out += String(Config.clench_detector_in_edging) + '\n';
-  } else if(!strcmp(option, "auto_edging_duration_minutes")) {
+  } else if (!strcmp(option, "auto_edging_duration_minutes")) {
     out += String(Config.auto_edging_duration_minutes) + '\n';
-  } else if(!strcmp(option, "post_orgasm_duration_seconds")) {
+  } else if (!strcmp(option, "post_orgasm_duration_seconds")) {
     out += String(Config.post_orgasm_duration_seconds) + '\n';
-  } else if(!strcmp(option, "max_clench_duration")) {
+  } else if (!strcmp(option, "max_clench_duration")) {
     out += String(Config.max_clench_duration) + '\n';
-  } else if(!strcmp(option, "post_orgasm_menu_lock")) {
+  } else if (!strcmp(option, "post_orgasm_menu_lock")) {
     out += String(Config.post_orgasm_menu_lock) + '\n';
-  } else if(!strcmp(option, "edge_menu_lock")) {
+  } else if (!strcmp(option, "edge_menu_lock")) {
     out += String(Config.edge_menu_lock) + '\n';
   } else {
     return false;

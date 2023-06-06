@@ -20,7 +20,7 @@ enum MoveDirection {
 typedef struct Point {
   unsigned int x = 0;
   unsigned int y = 0;
-  bool operator==(Point const & b) {
+  bool operator==(Point const &b) {
     return this->x == b.x && this->y == b.y;
   }
 } Point;
@@ -47,7 +47,7 @@ class pSnake : public Page {
     if (last_node != nullptr) {
       p = last_node->p;
 
-      switch(dir) {
+      switch (dir) {
         case Up:
           p.y = (p.y + 1) % SNAKE_GRID_HEIGHT;
           break;
@@ -94,7 +94,7 @@ class pSnake : public Page {
   int get_snake_length() {
     SnakeNode *n = first_node;
     int i = 0;
-    while(n != nullptr) {
+    while (n != nullptr) {
       i++;
       n = n->next;
     }
@@ -134,20 +134,18 @@ class pSnake : public Page {
     // Draw Snake
     while (n != nullptr) {
       UI.display->fillRect(
-          n->p.x * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
-          n->p.y * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
-          SNAKE_CUBE_SIZE, SNAKE_CUBE_SIZE, SSD1306_WHITE
-      );
+        n->p.x * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
+        n->p.y * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
+        SNAKE_CUBE_SIZE, SNAKE_CUBE_SIZE, SSD1306_WHITE);
 
       n = n->next;
     }
 
     // Draw Food Chunk
     UI.display->drawRect(
-        food_point.x * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
-        food_point.y * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
-        SNAKE_CUBE_SIZE, SNAKE_CUBE_SIZE, SSD1306_WHITE
-    );
+      food_point.x * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
+      food_point.y * (SNAKE_CUBE_SIZE + SNAKE_PADDING_SIZE),
+      SNAKE_CUBE_SIZE, SNAKE_CUBE_SIZE, SSD1306_WHITE);
   }
 
   void Loop() override {
@@ -164,7 +162,7 @@ class pSnake : public Page {
 
       // Adjust Direction
       if (turn != Up) {
-        switch(direction) {
+        switch (direction) {
           case Up:
             direction = turn == Right ? Right : Left;
             break;

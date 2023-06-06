@@ -1,7 +1,7 @@
-#include "UIMenu.h"
-#include "UserInterface.h"
 #include "Page.h"
+#include "UIMenu.h"
 #include "UpdateHelper.h"
+#include "UserInterface.h"
 
 static void buildMenu(UIMenu *menu) {
   menu->addItem("Automatic Edging", &RunGraphPage);
@@ -13,7 +13,7 @@ static void buildMenu(UIMenu *menu) {
   menu->addItem(&GamesMenu);
   menu->addItem(&UpdateMenu);
 
-  menu->addItem("System Info", [](UIMenu*) {
+  menu->addItem("System Info", [](UIMenu *) {
     UI.toastNow(String("S/N: ") + Hardware::getDeviceSerial() + "\n" + "Version: " VERSION);
   });
 }

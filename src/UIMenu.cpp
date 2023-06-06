@@ -1,6 +1,6 @@
 #include "UIMenu.h"
-#include "UserInterface.h"
 #include "Page.h"
+#include "UserInterface.h"
 
 #include <esp32-hal-log.h>
 
@@ -135,20 +135,24 @@ void UIMenu::addItemAt(size_t index, const char *text, MenuCallback cb) {
 }
 
 void UIMenu::addItem(UIMenu *submenu, void *arg) {
-  addItem(submenu->title, [=](UIMenu*, void *argv) {
-    UI.openMenu(submenu, true, true, argv);
-  }, arg);
+  addItem(
+    submenu->title, [=](UIMenu *, void *argv) {
+      UI.openMenu(submenu, true, true, argv);
+    },
+    arg);
 }
 
 void UIMenu::addItem(std::string text, UIMenu *submenu, void *arg) {
-  addItem(text.c_str(), [=](UIMenu*, void *argv) {
-    log_i("Item added with argv=%x", argv);
-    UI.openMenu(submenu, true, true, argv);
-  }, arg);
+  addItem(
+    text.c_str(), [=](UIMenu *, void *argv) {
+      log_i("Item added with argv=%x", argv);
+      UI.openMenu(submenu, true, true, argv);
+    },
+    arg);
 }
 
 void UIMenu::addItem(const char *text, Page *page) {
-  addItem(text, [=](UIMenu*) {
+  addItem(text, [=](UIMenu *) {
     Page::Go(page);
   });
 }
@@ -279,15 +283,11 @@ void UIMenu::selectNext() {
   }
 
   current_item = current_item->next;
-  
+
   UI.clearButtons();
   UI.setButton(0, "BACK");
 
-  if (current_item != nullptr && (
-       current_item->cb != nullptr 
-    || current_item->pcb != nullptr 
-    || current_item->ipcb != nullptr
-  )) {
+  if (current_item != nullptr && (current_item->cb != nullptr || current_item->pcb != nullptr || current_item->ipcb != nullptr)) {
     UI.setButton(2, "ENTER");
   }
 
@@ -309,23 +309,19 @@ void UIMenu::selectPrev() {
 
   UI.clearButtons();
   UI.setButton(0, "BACK");
-  
-  if (current_item != nullptr && (
-       current_item->cb != nullptr 
-    || current_item->pcb != nullptr 
-    || current_item->ipcb != nullptr
-  )) {
+
+  if (current_item != nullptr && (current_item->cb != nullptr || current_item->pcb != nullptr || current_item->ipcb != nullptr)) {
     UI.setButton(2, "ENTER");
   }
-  
+
   render();
 }
 
 int UIMenu::getIndexByArgument(void *arg) {
   UIMenuItem *p = first_item;
   size_t idx = 0;
-  
-  while(p != nullptr) {
+
+  while (p != nullptr) {
     idx++;
     if (p->arg == arg) return idx;
     p = p->next;

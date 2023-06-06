@@ -1,12 +1,12 @@
 #include "Page.h"
 #include "UserInterface.h"
 
-Page* Page::currentPage = nullptr;
-Page* Page::previousPage = nullptr;
-Page* Page::previousPages[HISTORY_LENGTH] = { nullptr };
+Page *Page::currentPage = nullptr;
+Page *Page::previousPage = nullptr;
+Page *Page::previousPages[HISTORY_LENGTH] = { nullptr };
 size_t Page::historyIndex = 0;
 
-void Page::Go(Page* page, bool saveHistory) {
+void Page::Go(Page *page, bool saveHistory) {
   // Close Menus & toasts
   UI.openMenu(nullptr, false, false);
   UI.toast("");
@@ -31,7 +31,7 @@ void Page::Go(Page* page, bool saveHistory) {
 }
 
 void Page::GoBack() {
-  Page* prev = popHistory();
+  Page *prev = popHistory();
   if (prev != nullptr) {
     Go(prev, false);
   }
@@ -101,12 +101,12 @@ void Page::pushHistory(Page *page) {
   previousPages[historyIndex] = page;
 }
 
-Page* Page::popHistory() {
+Page *Page::popHistory() {
   historyIndex = (historyIndex - 1) % HISTORY_LENGTH;
   return previousPages[historyIndex];
 }
 
-Page* Page::CurrentPage() {
+Page *Page::CurrentPage() {
   return currentPage;
 }
 

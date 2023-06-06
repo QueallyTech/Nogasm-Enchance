@@ -1,10 +1,10 @@
 #include "UpdateHelper.h"
 #include "UserInterface.h"
-#include "WiFiHelper.h"
 #include "VERSION.h"
+#include "WiFiHelper.h"
 
-#include <SD.h>
 #include <HTTPClient.h>
+#include <SD.h>
 
 #define UPDATE_BUFFER_SIZE (1024 * 1)
 
@@ -15,7 +15,7 @@ namespace UpdateHelper {
   size_t waitUntilAvailable(Stream *stream, long timeout_ms = 10000) {
     long start_ms = millis();
     size_t available = 0;
-    while(available == 0 && millis() - start_ms < timeout_ms) {
+    while (available == 0 && millis() - start_ms < timeout_ms) {
       available = stream->available();
     }
     return available;
@@ -35,7 +35,7 @@ namespace UpdateHelper {
         size_t read = updateSource.readBytes(buffer, UPDATE_BUFFER_SIZE);
         written += Update.write(buffer, read);
         log_d("Read %d bytes, Written %d/%d bytes. (Heap Free: %d bytes)", read, written, updateSize, xPortGetFreeHeapSize());
-        UI.toastProgress("Updating...", (float)written/updateSize);
+        UI.toastProgress("Updating...", (float) written / updateSize);
 
         if (written < updateSize) {
           waitUntilAvailable(&updateSource);

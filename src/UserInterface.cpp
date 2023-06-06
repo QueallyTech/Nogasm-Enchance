@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 #include "Icons.h"
-#include "WebSocketHelper.h"
 #include "OrgasmControl.h"
+#include "WebSocketHelper.h"
 
 #include "Page.h"
 
@@ -29,19 +29,18 @@ void UserInterface::drawStatus(const char *s) {
     strlcpy(status, s, STATUS_SIZE);
     int sum = 0;
     for (int i = 0; i < strlen(status); i++) {
-      sum += (int)status[i];
+      sum += (int) status[i];
     }
 
     Hardware::setEncoderColor(CHSV(
-        sum % 255,
-        255,
-        128
-    ));
+      sum % 255,
+      255,
+      128));
   }
 
   // actually calculate ---------------\/
   this->display->fillRect(0, 0, SCREEN_WIDTH - icon_y(3), 10, SSD1306_BLACK);
-  this->display->setCursor(0,0);
+  this->display->setCursor(0, 0);
   this->display->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
   this->display->print(status);
 }
@@ -71,9 +70,9 @@ void UserInterface::drawCompactBar(int x, int y, int width, int value, int maxim
   int marker_2_x = max(x + 2, min((int) map(lowerValue, 0, lowerMaximum, x + 2, x + width - 2), x + width - 2));
 
   // Center line + End
-  UI.display->drawLine(x, y, max(x, marker_1_x - 3), y, SSD1306_WHITE); // left half
-  UI.display->drawLine(min(x + width, marker_1_x + 3), y, x + width, y, SSD1306_WHITE); // right half
-  UI.display->drawLine(x, y - bar_height, x, y + bar_height, SSD1306_WHITE); // left bar
+  UI.display->drawLine(x, y, max(x, marker_1_x - 3), y, SSD1306_WHITE);                      // left half
+  UI.display->drawLine(min(x + width, marker_1_x + 3), y, x + width, y, SSD1306_WHITE);      // right half
+  UI.display->drawLine(x, y - bar_height, x, y + bar_height, SSD1306_WHITE);                 // left bar
   UI.display->drawLine(x + width, y - bar_height, x + width, y + bar_height, SSD1306_WHITE); // right bar
 
   // Markers
@@ -150,7 +149,7 @@ void UserInterface::drawChartAxes() {
   int yInterval = chartHeight / 13 + 1;
 
   // Speed Meter
-//  this->display->drawRect(0, 10, 4, SCREEN_HEIGHT - 10, SSD1306_WHITE);
+  //  this->display->drawRect(0, 10, 4, SCREEN_HEIGHT - 10, SSD1306_WHITE);
 
   // Y-axis
   this->display->drawLine(CHART_START_X - 1, CHART_START_Y, CHART_START_X - 1, CHART_END_Y, SSD1306_WHITE);
@@ -187,7 +186,7 @@ void UserInterface::setButton(byte i, char *text, ButtonCallback fn) {
 void UserInterface::drawPattern(int start_x, int start_y, int width, int height, int pattern, int color) {
   for (int x = start_x; x < start_x + width; x++) {
     for (int y = start_y; y < start_y + height; y++) {
-      if (!((x+y)%pattern)) {
+      if (!((x + y) % pattern)) {
         this->display->drawPixel(x, y, color);
       }
     }
@@ -195,7 +194,7 @@ void UserInterface::drawPattern(int start_x, int start_y, int width, int height,
 }
 
 void UserInterface::drawButtons() {
-  this->display->drawLine(0, BUTTON_START_Y-1, SCREEN_WIDTH, BUTTON_START_Y-1, SSD1306_BLACK);
+  this->display->drawLine(0, BUTTON_START_Y - 1, SCREEN_WIDTH, BUTTON_START_Y - 1, SSD1306_BLACK);
 
   for (int i = 0; i < 3; i++) {
     UIButton b = buttons[i];
@@ -228,8 +227,8 @@ void UserInterface::onKeyPress(byte i) {
     return;
   }
 
-  // don't lock Chart button (i == 0)  
-  if (i != 0 && OrgasmControl::isMenuLocked()){
+  // don't lock Chart button (i == 0)
+  if (i != 0 && OrgasmControl::isMenuLocked()) {
     UI.toastNow("Access Denied", 1000);
     return;
   }
@@ -277,12 +276,11 @@ void UserInterface::onEncoderChange(int value) {
 void UserInterface::drawChart(int peakLimit = 600) {
   // Clear Chart
   this->display->fillRect(
-      CHART_START_X,
-      CHART_START_Y,
-      CHART_WIDTH,
-      CHART_HEIGHT,
-      SSD1306_BLACK
-  );
+    CHART_START_X,
+    CHART_START_Y,
+    CHART_WIDTH,
+    CHART_HEIGHT,
+    SSD1306_BLACK);
 
   int previousValue;
   int activeRow = 1;
@@ -298,19 +296,11 @@ void UserInterface::drawChart(int peakLimit = 600) {
       int valueIndex = (i + this->chartCursor[r] + 1) % CHART_WIDTH;
       int value = this->chartReadings[r][valueIndex];
 
-      int y2 = (
-          CHART_END_Y - map(
-              value, 0, seriesMax, CHART_START_Y, CHART_END_Y
-          ) + CHART_START_Y
-      );
+      int y2 = (CHART_END_Y - map(value, 0, seriesMax, CHART_START_Y, CHART_END_Y) + CHART_START_Y);
 
       int y1;
       if (i > 0) {
-        y1 = (
-            CHART_END_Y - map(
-                previousValue, 0, seriesMax, CHART_START_Y, CHART_END_Y
-            ) + CHART_START_Y
-        );
+        y1 = (CHART_END_Y - map(previousValue, 0, seriesMax, CHART_START_Y, CHART_END_Y) + CHART_START_Y);
       } else {
         y1 = y2;
       }
@@ -469,7 +459,7 @@ void UserInterface::drawToast() {
   }
 
   // TODO: This is a clusterfuck of math, and on odd lined text is off-by-one
-  int start_y = (SCREEN_HEIGHT/2) - (((7+padding)*text_lines)/2) - (padding/2) - margin - 1;
+  int start_y = (SCREEN_HEIGHT / 2) - (((7 + padding) * text_lines) / 2) - (padding / 2) - margin - 1;
   if (text_lines & 1) start_y -= 1; // <-- hack for that off-by-one
 
   int end_y = SCREEN_HEIGHT - start_y;
@@ -478,7 +468,7 @@ void UserInterface::drawToast() {
   // Clear Border
   for (int y = 0; y < SCREEN_HEIGHT; y++) {
     for (int x = 0; x < SCREEN_WIDTH; x++) {
-      if((x+y) % 2 == 0) {
+      if ((x + y) % 2 == 0) {
         display->drawPixel(x, y, SSD1306_BLACK);
       }
     }
@@ -488,7 +478,7 @@ void UserInterface::drawToast() {
   display->drawRect(start_x + margin, start_y + margin, SCREEN_WIDTH - (start_x * 2) - (margin * 2), SCREEN_HEIGHT - (start_y * 2) - (margin * 2), SSD1306_WHITE);
   display->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
 
-  char tmp[19*4] = "";
+  char tmp[19 * 4] = "";
   strcpy(tmp, toast_message);
 
   char *tok = strtok(tmp, "\n");
@@ -510,7 +500,7 @@ void UserInterface::drawToast() {
 }
 
 void UserInterface::toast(const char *message, long duration, bool allow_clear) {
-  strlcpy(toast_message, message, 19*4);
+  strlcpy(toast_message, message, 19 * 4);
   toast_expiration = duration > 0 ? millis() + duration : 0;
   toast_render_pending = true;
   toast_allow_clear = allow_clear;
@@ -546,7 +536,7 @@ void UserInterface::toastProgress(const char *message, float progress) {
   char percFill[TOAST_WIDTH - 6] = "";
   char finalToast[TOAST_WIDTH * TOAST_LINES + 5] = "";
 
-  int fillBars = floor(((float)perc / 100) * sizeof(percFill));
+  int fillBars = floor(((float) perc / 100) * sizeof(percFill));
   for (int i = 0; i < fillBars; i++) {
     strcat(percFill, "#");
   }
